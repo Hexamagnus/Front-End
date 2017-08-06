@@ -1,9 +1,18 @@
 import React, { Component } from 'react';
 import Perfil from './components/perfil';
 import Notas from './components/notas';
+import DetalleNota from './components/detalleNota';
 import './main.css';
 
 class Main extends Component {
+
+constructor(props) {
+    super(props);
+    this.state = {
+      notaActual : null
+    }
+}
+
   render() {
     return (
       <div className="row">
@@ -17,6 +26,7 @@ class Main extends Component {
             </div>
           </div>
           <div className="col-md-9">
+            <DetalleNota/>
           </div>
         </div>
       </div>
