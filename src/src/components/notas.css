@@ -1,0 +1,19 @@
+.btn-agregar{
+    background-color: darkgreen;
+    border-color: darkgreen;
+    width: 10em !important;
+    margin: 0.5em
+}
+
+.btn-agregar:focus, .btn-agregar:hover{
+    background-color: darkolivegreen;
+    border-color: darkgreen !important;
+    width: 10em !important
+}
+
+.btn-nota{
+    background-color: #1919FF;
+    border-color: #1919FF;
+    width: 10em !important;
+    margin: 0.5em
+}

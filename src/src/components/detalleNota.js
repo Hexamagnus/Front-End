@@ -79,30 +79,30 @@ class DetalleNota extends Component {
                 <div className="col-md-12">
                     <div className="row">
                         <div className="col-md-4">
-                            <a className="btn btn-info btn-lg" href="#" onClick={() => this.analisisSeleccionado.bind(this)()}>Análisis</a>
+                            <a className="btn btn-info btn-lg btn-analisis" href="#" onClick={() => this.analisisSeleccionado.bind(this)()}>Análisis</a>
                         </div>
                         {this.state.analisisSelec ?
                             <div className="col-md-4">
                                 <div className="col-md-12">
-                                    <a className="btn btn-info btn-lg" href="#" onClick={() => this.resumenSeleccionado.bind(this)()}>Resumen</a>
+                                    <a className="btn btn-info btn-lg btn-tipoa" href="#" onClick={() => this.resumenSeleccionado.bind(this)()}>Resumen</a>
                                 </div>
                                 <div className="col-md-12">
-                                    <a className="btn btn-info btn-lg" href="#" onClick={() => this.realizarAnalisis.bind(this)("nubePalabras")}>Nube de Palabras</a>
+                                    <a className="btn btn-info btn-lg btn-tipoa" href="#" onClick={() => this.realizarAnalisis.bind(this)("nubePalabras")}>Nube de Palabras</a>
                                 </div>
                                 <div className="col-md-12">
-                                    <a className="btn btn-info btn-lg" href="#" onClick={() => this.realizarAnalisis.bind(this)("mapaMental")}>Mapa Mental</a>
+                                    <a className="btn btn-info btn-lg btn-tipoa" href="#" onClick={() => this.realizarAnalisis.bind(this)("mapaMental")}>Mapa Mental</a>
                                 </div>
                                 <div className="col-md-12">
-                                    <a className="btn btn-info btn-lg" href="#" onClick={() => this.realizarAnalisis.bind(this)("resumenEstadistico")}>Resumen Estadístico</a>
+                                    <a className="btn btn-info btn-lg btn-tipoa" href="#" onClick={() => this.realizarAnalisis.bind(this)("resumenEstadistico")}>Resumen Estadístico</a>
                                 </div>
                                 <div className="col-md-12">
-                                    <a className="btn btn-info btn-lg" href="#" onClick={() => this.realizarAnalisis.bind(this)("trivias")}>Trivias</a>
+                                    <a className="btn btn-info btn-lg btn-tipoa" href="#" onClick={() => this.realizarAnalisis.bind(this)("trivias")}>Trivias</a>
                                 </div>
                                 <div className="col-md-12">
-                                    <a className="btn btn-info btn-lg" href="#" onClick={() => this.realizarAnalisis.bind(this)("asitenteMapaMental")}>Asistente de Mapa Mental</a>
+                                    <a className="btn btn-info btn-lg btn-tipoa" href="#" onClick={() => this.realizarAnalisis.bind(this)("asitenteMapaMental")}>Asistente de Mapa Mental</a>
                                 </div>
                                 <div className="col-md-12">
-                                    <a className="btn btn-info btn-lg" href="#" onClick={() => this.realizarAnalisis.bind(this)("compartir")}>Compartir</a>
+                                    <a className="btn btn-info btn-lg btn-tipoa" href="#" onClick={() => this.realizarAnalisis.bind(this)("compartir")}>Compartir</a>
                                 </div>
                             </div>
                             : ''

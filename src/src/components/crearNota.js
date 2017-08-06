@@ -3,6 +3,17 @@ import ReactDOM from 'react-dom'
 import Files from 'react-files'
 import './crearNota.css';
 
+var azure = require('azure-storage');
+var blobService = azure.createBlobService();
+blobService.createContainerIfNotExists('audio', {
+  publicAccessLevel: 'blob'
+}, function(error, result, response) {
+  if (!error) {
+    // if result = true, container was created.
+    // if result = false, container already existed.
+  }
+});
+
 class CrearNota extends Component {
 
     constructor(props) {
@@ -12,10 +23,11 @@ class CrearNota extends Component {
             subirArchivo: false,
             tituloNota: "",
             descripcionNota: "",
-            tagsNota: ""
+            tagsNota: "",
+            file:""
         }
     }
-
+i
     empezarAGrabar() {
         this.setState({
             creando: true,
@@ -42,13 +54,30 @@ class CrearNota extends Component {
 		});
 	}
 
-    onFilesChange (files) {
-        console.log(files)
+    _handleSubmit(e) {
+    e.preventDefault();
+    // TODO: do something with -> this.state.file
+    console.log('handle uploading-', this.state.file);
+  }
+
+  _handleFileChange(e) {
+    e.preventDefault();
+
+    let reader = new FileReader();
+    let file = e.target.files[0];
+
+    reader.onloadend = () => {
+        console.log(reader.result);
+      this.setState({
+        file: file
+      });
     }
- 
-    onFilesError (error, file) {
-        console.log('error code ' + error.code + ': ' + error.message)
-    }
+    
+    reader.readAsDataURL(file)
+    console.log(reader);
+    
+  }
+
 
     guardarNota() {
 
@@ -68,21 +97,14 @@ class CrearNota extends Component {
                     <a className="btn btn-info btn-lg" href="#" onClick={() => this.subirAudio.bind(this)()}>Subir audio</a>
                 </div>
                 {this.state.subirArchivo?
-                <div className="files">
-                    <Files
-                    className='files-dropzone'
-                    onChange={this.onFilesChange}
-                    onError={this.onFilesError}
-                    accepts={['image/png', 'text/plain', 'audio/*']}
-                    multiple
-                    maxFiles={3}
-                    maxFileSize={1000000000}
-                    minFileSize={0}
-                    clickable
-                    >
-                    Drop files here or click to upload
-                    </Files>
-                </div>
+                <form onSubmit={(e)=>this._handleSubmit(e)}>
+                    <input className="fileInput" 
+                        type="file" 
+                        onChange={(e)=>this._handleFileChange(e)} />
+                    <button className="submitButton" 
+                        type="submit" 
+                        onClick={(e)=>this._handleSubmit(e)}>Cargar archivo</button>
+                </form>
                 :
                 ''
                 }
