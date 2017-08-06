@@ -1,17 +1,20 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="theme-color" content="#000000">
-    <!--
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="theme-color" content="#000000">
+  <!--
       manifest.json provides metadata used when your web app is added to the
       homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
     -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
-    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
-    <!--
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
+  <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="mystyle.css">
+
+  <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
       Only files inside the `public` folder can be referenced from the HTML.
@@ -20,14 +23,190 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>React App</title>
-  </head>
-  <body>
-    <noscript>
-      You need to enable JavaScript to run this app.
-    </noscript>
-    <div id="root"></div>
-    <!--
+  <title>React App</title>
+</head>
+
+<body>
+  <noscript>
+    You need to enable JavaScript to run this app.
+  </noscript>
+  <div id="root"></div>
+  <div id="speech">
+    <table width="100%">
+      <tr>
+        <td>
+          <button id="startBtn" class="btn btn-info btn-lg btn-crear" disabled="disabled">Iniciar</button>
+          <button id="stopBtn" class="btn btn-info btn-lg btn-crear" disabled="disabled">Parar</button>
+        </td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>Estado: <span id="statusDiv"></span></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>
+          <textarea id="buffered_text" style="width:500px;height:200px"></textarea>
+        </td>
+      </tr>
+    </table>
+
+    <!-- The SDK has a dependency on requirejs (http://requirejs.org/). -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/require.js/2.3.3/require.min.js"></script>
+    <script>
+      // Special handling to let the sample work when loaded directly from file system.
+      if (window.location.protocol == "file:") {
+        document.write('\<script src="http://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.3/require.min.js">\<\/script>');
+      }
+    </script>
+
+    <!-- SDK REFERENCE -->
+    <script src="../../distrib/speech.browser.sdk-min.js"></script>
+
+    <!-- SDK USAGE -->
+    <script>
+      // On doument load resolve the SDK dependecy
+      function Initialize(onComplete) {
+        require(["Speech.Browser.Sdk"], function (SDK) {
+          onComplete(SDK);
+        });
+      }
+
+      // Setup the recongizer
+      function RecognizerSetup(SDK, recognitionMode, language, format, subscriptionKey) {
+        var recognizerConfig = new SDK.RecognizerConfig(
+          new SDK.SpeechConfig(
+            new SDK.Context(
+              new SDK.OS(navigator.userAgent, "Browser", null),
+              new SDK.Device("SpeechSample", "SpeechSample", "1.0.00000"))),
+          recognitionMode, // SDK.RecognitionMode.Interactive  (Options - Interactive/Conversation/Dictation>)
+          language, // Supported laguages are specific to each recognition mode. Refer to docs.
+          format); // SDK.SpeechResultFormat.Simple (Options - Simple/Detailed)
+
+        // Alternatively use SDK.CognitiveTokenAuthentication(fetchCallback, fetchOnExpiryCallback) for token auth
+        var authentication = new SDK.CognitiveSubscriptionKeyAuthentication(subscriptionKey);
+
+        return SDK.CreateRecognizer(recognizerConfig, authentication);
+      }
+
+      // Start the recognition
+      function RecognizerStart(SDK, recognizer) {
+        recognizer.Recognize((event) => {
+          /*
+           Alternative syntax for typescript devs.
+           if (event instanceof SDK.RecognitionTriggeredEvent)
+          */
+          switch (event.Name) {
+            case "RecognitionTriggeredEvent":
+              UpdateStatus("Inicializando");
+              break;
+            case "ListeningStartedEvent":
+              UpdateStatus("Escuchando");
+              break;
+            case "RecognitionStartedEvent":
+              UpdateStatus("Escuchando y reconociendo");
+              break;
+            case "SpeechStartDetectedEvent":
+              UpdateStatus("Reconociendo");
+              console.log(JSON.stringify(event.Result)); // check console for other information in result
+              break;
+            case "SpeechHypothesisEvent":
+              UpdateRecognizedHypothesis(event.Result.Text);
+              console.log(JSON.stringify(event.Result)); // check console for other information in result
+              break;
+            case "SpeechEndDetectedEvent":
+              OnSpeechEndDetected();
+              UpdateStatus("Processing_Adding_Final_Touches");
+              console.log(JSON.stringify(event.Result)); // check console for other information in result
+              break;
+            case "SpeechSimplePhraseEvent":
+              UpdateRecognizedPhrase(JSON.stringify(event.Result, null, 3));
+              break;
+            case "SpeechDetailedPhraseEvent":
+              UpdateRecognizedPhrase(JSON.stringify(event.Result, null, 3));
+              break;
+            case "RecognitionEndedEvent":
+              OnComplete();
+              UpdateStatus("Idle");
+              console.log(JSON.stringify(event)); // Debug information
+              break;
+          }
+        })
+          .On(() => {
+            // The request succeeded. Nothing to do here.
+          },
+          (error) => {
+            console.error(error);
+          });
+      }
+
+      // Stop the Recognition.
+      function RecognizerStop(SDK, recognizer) {
+        // recognizer.AudioSource.Detach(audioNodeId) can be also used here. (audioNodeId is part of ListeningStartedEvent)
+        recognizer.AudioSource.TurnOff();
+      }
+    </script>
+
+    <!-- Browser Hooks -->
+    <script>
+        var startBtn, stopBtn, hypothesisDiv, phraseDiv, statusDiv, key, languageOptions, formatOptions;
+        var SDK;
+        var recognizer;
+        var previousSubscriptionKey;
+
+        document.addEventListener("DOMContentLoaded", function () {
+          createBtn = document.getElementById("createBtn");
+          startBtn = document.getElementById("startBtn");
+          stopBtn = document.getElementById("stopBtn");
+          statusDiv = document.getElementById("statusDiv");
+          buffered_text = document.getElementById("buffered_text");
+
+          startBtn.addEventListener("click", function () {
+            if (!recognizer || previousSubscriptionKey != "75fdb8db51b74e4c8d8b7b3c161ff2f9") {
+              previousSubscriptionKey = "75fdb8db51b74e4c8d8b7b3c161ff2f9";
+              Setup();
+            }
+
+            RecognizerStart(SDK, recognizer);
+            startBtn.disabled = true;
+            stopBtn.disabled = false;
+          });
+
+          stopBtn.addEventListener("click", function () {
+            RecognizerStop(SDK);
+            startBtn.disabled = false;
+            stopBtn.disabled = true;
+          });
+
+          Initialize(function (speechSdk) {
+            SDK = speechSdk;
+            startBtn.disabled = false;
+          });
+        });
+
+        function Setup() {
+          recognizer = RecognizerSetup(SDK, SDK.RecognitionMode.Conversation, "es-ES", SDK.SpeechResultFormat["Simple"], "75fdb8db51b74e4c8d8b7b3c161ff2f9");
+        }
+
+        function UpdateStatus(status) {
+          statusDiv.innerHTML = status;
+        }
+
+        function OnSpeechEndDetected() {
+          stopBtn.disabled = true;
+        }
+
+        function UpdateRecognizedPhrase(json) {
+          buffered_text.innerHTML += JSON.parse(json).DisplayText + ".\n";
+        }
+
+        function OnComplete() {
+          startBtn.disabled = false;
+          stopBtn.disabled = true;
+        }
+    </script>
+  </div>
+  <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
 
@@ -37,5 +216,6 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-  </body>
+</body>
+
 </html>
