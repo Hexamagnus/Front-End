@@ -16,6 +16,9 @@ blobService.createContainerIfNotExists('audio', {
 });
 */
 
+
+
+
 class CrearNota extends Component {
 
     constructor(props) {
@@ -33,7 +36,10 @@ i
     empezarAGrabar() {
         this.setState({
             creando: true,
+            subirArchivo:false
         });
+
+        document.getElementById("speech").style.display = "block";
     }
 
     subirTexto() {
@@ -41,6 +47,7 @@ i
             creando: true,
             subirArchivo:true
         });
+        document.getElementById("speech").style.display = "none";
     }
 
     subirAudio() {
@@ -48,6 +55,7 @@ i
             creando: true,
             subirArchivo:true
         });
+        document.getElementById("speech").style.display = "none";
     }
 
     handleInputChange(event) {

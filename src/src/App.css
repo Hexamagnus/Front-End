@@ -27,3 +27,11 @@
   margin-left: 0 !important;
   padding-left: 0 !important;
 }
+
+#speech{
+  display: none;
+  position: fixed;
+  font-size: 1.3em;
+    bottom: 25%;
+    left: 20%;
+}

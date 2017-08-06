@@ -13,7 +13,7 @@ class Main extends Component {
       notas: [
         {
           "titulo": "Fisica",
-          "fecha_modificacion":"26-05-2017",
+          "fecha_modificacion":"26-05-17",
           "resumenes":[
             {
               "titulo":"Clase termo"
@@ -21,8 +21,8 @@ class Main extends Component {
           ]
         },
         {
-          "titulo": "Filosofia",
-          "fecha_modificacion":"03-02-2016",
+          "titulo": "Filo",
+          "fecha_modificacion":"03-02-16",
           "resumenes":[
             {
               "titulo":"Clase socrates"
@@ -31,7 +31,7 @@ class Main extends Component {
         },
         {
           "titulo": "Mate",
-          "fecha_modificacion":"21-10-2017",
+          "fecha_modificacion":"21-10-17",
           "resumenes":[
             {
               "titulo":"Clase Fourier"
