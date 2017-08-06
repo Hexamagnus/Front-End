@@ -110,13 +110,13 @@ class DetalleNota extends Component {
                         {this.state.resumenSelec ?
                             <div className="col-md-4">
                                 <div className="col-md-12">
-                                    <a className="btn btn-info btn-lg" href="#" onClick={() => this.realizarAnalisis.bind(this)("resumenSimple")}>Simple</a>
+                                    <a className="btn btn-info btn-lg btn-tipoa" href="#" onClick={() => this.realizarAnalisis.bind(this)("resumenSimple")}>Simple</a>
                                 </div>
                                 <div className="col-md-12">
-                                    <a className="btn btn-info btn-lg" href="#" onClick={() => this.realizarAnalisis.bind(this)("resumenMedio")}>Medio</a>
+                                    <a className="btn btn-info btn-lg btn-tipoa" href="#" onClick={() => this.realizarAnalisis.bind(this)("resumenMedio")}>Medio</a>
                                 </div>
                                 <div className="col-md-12">
-                                    <a className="btn btn-info btn-lg" href="#" onClick={() => this.realizarAnalisis.bind(this)("resumenLargo")}>Largo</a>
+                                    <a className="btn btn-info btn-lg btn-tipoa" href="#" onClick={() => this.realizarAnalisis.bind(this)("resumenLargo")}>Largo</a>
                                 </div>
                             </div>
                             : ''

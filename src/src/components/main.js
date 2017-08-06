@@ -13,15 +13,30 @@ class Main extends Component {
       notas: [
         {
           "titulo": "Fisica",
-          "resumenes":[]
+          "fecha_modificacion":"26-05-2017",
+          "resumenes":[
+            {
+              "titulo":"Clase termo"
+            }
+          ]
         },
         {
           "titulo": "Filosofia",
-          "resumenes":[]
+          "fecha_modificacion":"03-02-2016",
+          "resumenes":[
+            {
+              "titulo":"Clase socrates"
+            }
+          ]
         },
         {
           "titulo": "Mate",
-          "resumenes":[]
+          "fecha_modificacion":"21-10-2017",
+          "resumenes":[
+            {
+              "titulo":"Clase Fourier"
+            }
+          ]
         }
       ],
       notaActual: null,
@@ -46,9 +61,9 @@ class Main extends Component {
 
   render() {
     return (
-      <div className="row">
-        <div className="col-md-12">
-          <div className="col-md-3">
+      <div className="row colmenu">
+        <div className="col-md-12 colmenu">
+          <div className="col-md-3 colmenu1">
             <div className="col-md-12">
               <Perfil />
             </div>

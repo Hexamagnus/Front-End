@@ -1,0 +1,19 @@
+.btn-crear{
+    background-color: #1919FF;
+    border-color: #1919FF;
+    width: 80%!important;
+    margin: 0.5em
+}
+
+.btn-crear-nota{
+    background-color: darkgreen;
+    border-color: darkgreen;
+    width: 80% !important;
+    margin: 0.5em
+}
+
+.btn-crear-nota:hover, .btn-crear-nota:focus{
+    background-color: darkolivegreen;
+    border-color: darkgreen !important;
+    width: 80% !important
+}

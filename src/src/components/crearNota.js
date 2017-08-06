@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom'
 import Files from 'react-files'
 import './crearNota.css';
-
+/*
+var fs = require("fs");
 var azure = require('azure-storage');
 var blobService = azure.createBlobService();
 blobService.createContainerIfNotExists('audio', {
@@ -13,6 +14,7 @@ blobService.createContainerIfNotExists('audio', {
     // if result = false, container already existed.
   }
 });
+*/
 
 class CrearNota extends Component {
 
@@ -88,13 +90,13 @@ i
         return (
             <div className="col-md-12">
                 <div className="col-md-4">
-                    <a className="btn btn-info btn-lg" href="#" onClick={() => this.empezarAGrabar.bind(this)()}>Empezar a grabar</a>
+                    <a className="btn btn-info btn-lg btn-crear" href="#" onClick={() => this.empezarAGrabar.bind(this)()}>Empezar a grabar</a>
                 </div>
                 <div className="col-md-4">
-                    <a className="btn btn-info btn-lg" href="#" onClick={() => this.subirTexto.bind(this)()}>Subir texto</a>
+                    <a className="btn btn-info btn-lg btn-crear" href="#" onClick={() => this.subirTexto.bind(this)()}>Subir texto</a>
                 </div>
                 <div className="col-md-4">
-                    <a className="btn btn-info btn-lg" href="#" onClick={() => this.subirAudio.bind(this)()}>Subir audio</a>
+                    <a className="btn btn-info btn-lg btn-crear" href="#" onClick={() => this.subirAudio.bind(this)()}>Subir audio</a>
                 </div>
                 {this.state.subirArchivo?
                 <form onSubmit={(e)=>this._handleSubmit(e)}>
@@ -120,7 +122,7 @@ i
                             <input type="text" name="tagsNota" value={this.state.tagsNota} onChange={this.handleInputChange} className="form-control" placeholder="Tags (Separados por coma)" required /><br />
                         </div>
                         <div className="col-md-12">
-                            <a className="btn btn-info btn-lg" href="#" onClick={() => this.guardarNota.bind(this)()}>Guardar nota</a>
+                            <a className="btn btn-info btn-lg btn-crear-nota" href="#" onClick={() => this.guardarNota.bind(this)()}>Guardar nota</a>
                         </div>
                     </div>
                     :

@@ -1,10 +1,13 @@
 .btn-analisis{
     background-color: #1919FF;
     border-color: #1919FF;
-    width: 10em !important;
+    width: 80% !important;
     margin: 0.5em
 }
 
 .btn-tipoa{
-    
+    background-color: #1919FF;
+    border-color: #1919FF;
+    width: 85% !important;
+    margin: 0.5em
 }

@@ -16,7 +16,7 @@ constructor(props) {
   render() {
     return (
       <div className="App">
-        <div className="container">
+        <div className="container marg0">
         {this.state.logged ? <Main/> : <Landing/>}
         </div>
       </div>
