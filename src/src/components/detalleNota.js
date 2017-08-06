@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import axios from 'axios';
+import qs from 'qs';
 import './detalleNota.css';
 
 class DetalleNota extends Component {
@@ -8,7 +10,8 @@ class DetalleNota extends Component {
         this.state = {
             analisisSelec: false,
             resumenSelec: false,
-            resumenActual: null
+            resumenActual: null,
+            resumenTexto: ""
         }
     }
 
@@ -34,10 +37,22 @@ class DetalleNota extends Component {
         });
     }
 
+    /* https://5e79bb3b.ngrok.io/summarize-posttager */
+
     realizarAnalisis(tipoAnalisis) {
         switch (tipoAnalisis) {
             case "resumenSimple":
-                // Consumir API y/o otras operaciones
+            var stateAct = this.state;
+
+                axios.post('https://5e79bb3b.ngrok.io/summarize-posttagger/', qs.stringify({ 'article': "The Cross-Origin Resource Sharing standard works by adding new HTTP headers that allow servers to describe the set of origins that are permitted to read that information using a web browser.  Additionally, for HTTP request methods that can cause side-effects on server's data (in particular, for HTTP methods other than GET, or for POST usage with certain MIME types), the " }))
+                    .then(response => { 
+
+                        this.setState({resumenTexto:response.data.summary});
+                        
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
                 break;
             case "resumenMedio":
                 // Consumir API y/o otras operaciones
@@ -69,7 +84,14 @@ class DetalleNota extends Component {
     }
 
     render() {
-        if(!this.props.notaActual){
+        if(this.state.resumenTexto){
+            return (
+            <div className="col-md-12">
+            <div className="col-md-12 resumen-texto">{this.state.resumenTexto}</div>
+            </div>
+            )
+        }
+        else if (!this.props.notaActual) {
             return (
                 <div className="col-md-12"></div>
             )
