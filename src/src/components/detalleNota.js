@@ -7,7 +7,8 @@ class DetalleNota extends Component {
         super(props);
         this.state = {
             analisisSelec: false,
-            resumenSelec: false
+            resumenSelec: false,
+            resumenActual: null
         }
     }
 
@@ -17,13 +18,19 @@ class DetalleNota extends Component {
             analisisSelec: nuevoSel,
             resumenSelec: false
         });
-        
+
     }
 
     resumenSeleccionado() {
         var nuevoSel = !this.state.resumenSelec;
         this.setState({
             resumenSelec: nuevoSel
+        });
+    }
+
+    cambiarResumenActual(resumen) {
+        this.setState({
+            resumenActual: resumen
         });
     }
 
@@ -62,54 +69,81 @@ class DetalleNota extends Component {
     }
 
     render() {
-        return (
-            <div className="col-md-12">
-                <div className="col-md-4">
-                    <a className="btn btn-info btn-lg" href="#" onClick={() => this.analisisSeleccionado.bind(this)()}>Análisis</a>
+        if(!this.props.notaActual){
+            return (
+                <div className="col-md-12"></div>
+            )
+        }
+        else if (!this.state.resumenActual) {
+            return (
+                <div className="col-md-12">
+                    <div className="row">
+                        <div className="col-md-4">
+                            <a className="btn btn-info btn-lg" href="#" onClick={() => this.analisisSeleccionado.bind(this)()}>Análisis</a>
+                        </div>
+                        {this.state.analisisSelec ?
+                            <div className="col-md-4">
+                                <div className="col-md-12">
+                                    <a className="btn btn-info btn-lg" href="#" onClick={() => this.resumenSeleccionado.bind(this)()}>Resumen</a>
+                                </div>
+                                <div className="col-md-12">
+                                    <a className="btn btn-info btn-lg" href="#" onClick={() => this.realizarAnalisis.bind(this)("nubePalabras")}>Nube de Palabras</a>
+                                </div>
+                                <div className="col-md-12">
+                                    <a className="btn btn-info btn-lg" href="#" onClick={() => this.realizarAnalisis.bind(this)("mapaMental")}>Mapa Mental</a>
+                                </div>
+                                <div className="col-md-12">
+                                    <a className="btn btn-info btn-lg" href="#" onClick={() => this.realizarAnalisis.bind(this)("resumenEstadistico")}>Resumen Estadístico</a>
+                                </div>
+                                <div className="col-md-12">
+                                    <a className="btn btn-info btn-lg" href="#" onClick={() => this.realizarAnalisis.bind(this)("trivias")}>Trivias</a>
+                                </div>
+                                <div className="col-md-12">
+                                    <a className="btn btn-info btn-lg" href="#" onClick={() => this.realizarAnalisis.bind(this)("asitenteMapaMental")}>Asistente de Mapa Mental</a>
+                                </div>
+                                <div className="col-md-12">
+                                    <a className="btn btn-info btn-lg" href="#" onClick={() => this.realizarAnalisis.bind(this)("compartir")}>Compartir</a>
+                                </div>
+                            </div>
+                            : ''
+                        }
+                        {this.state.resumenSelec ?
+                            <div className="col-md-4">
+                                <div className="col-md-12">
+                                    <a className="btn btn-info btn-lg" href="#" onClick={() => this.realizarAnalisis.bind(this)("resumenSimple")}>Simple</a>
+                                </div>
+                                <div className="col-md-12">
+                                    <a className="btn btn-info btn-lg" href="#" onClick={() => this.realizarAnalisis.bind(this)("resumenMedio")}>Medio</a>
+                                </div>
+                                <div className="col-md-12">
+                                    <a className="btn btn-info btn-lg" href="#" onClick={() => this.realizarAnalisis.bind(this)("resumenLargo")}>Largo</a>
+                                </div>
+                            </div>
+                            : ''
+                        }
+                    </div>
+                    {this.props.notaActual.resumenes.map((resumen, index) => {
+                        return (
+                            <div className="row">
+                                <div className="col-md-4">
+                                    <a className="btn btn-info btn-lg" href="#" onClick={() => this.cambiarResumenActual.bind(this)(resumen)}>
+                                        {resumen.titulo}
+                                    </a>
+                                </div>
+                            </div>
+                        )
+                    })
+                    }
                 </div>
-                {this.state.analisisSelec ?
-                    <div className="col-md-4">
-                        <div className="col-md-12">
-                            <a className="btn btn-info btn-lg" href="#" onClick={() => this.resumenSeleccionado.bind(this)()}>Resumen</a>
-                        </div>
-                        <div className="col-md-12">
-                            <a className="btn btn-info btn-lg" href="#" onClick={() => this.realizarAnalisis.bind(this)("nubePalabras")}>Nube de Palabras</a>
-                        </div>
-                        <div className="col-md-12">
-                            <a className="btn btn-info btn-lg" href="#" onClick={() => this.realizarAnalisis.bind(this)("mapaMental")}>Mapa Mental</a>
-                        </div>
-                        <div className="col-md-12">
-                            <a className="btn btn-info btn-lg" href="#" onClick={() => this.realizarAnalisis.bind(this)("resumenEstadistico")}>Resumen Estadístico</a>
-                        </div>
-                        <div className="col-md-12">
-                            <a className="btn btn-info btn-lg" href="#" onClick={() => this.realizarAnalisis.bind(this)("trivias")}>Trivias</a>
-                        </div>
-                        <div className="col-md-12">
-                            <a className="btn btn-info btn-lg" href="#" onClick={() => this.realizarAnalisis.bind(this)("asitenteMapaMental")}>Asistente de Mapa Mental</a>
-                        </div>
-                        <div className="col-md-12">
-                            <a className="btn btn-info btn-lg" href="#" onClick={() => this.realizarAnalisis.bind(this)("compartir")}>Compartir</a>
-                        </div>
-                    </div>
-                    : ''
-                }
-                {this.state.resumenSelec ?
-                    <div className="col-md-4">
-                        <div className="col-md-12">
-                            <a className="btn btn-info btn-lg" href="#" onClick={() => this.realizarAnalisis.bind(this)("resumenSimple")}>Simple</a>
-                        </div>
-                        <div className="col-md-12">
-                            <a className="btn btn-info btn-lg" href="#" onClick={() => this.realizarAnalisis.bind(this)("resumenMedio")}>Medio</a>
-                        </div>
-                        <div className="col-md-12">
-                            <a className="btn btn-info btn-lg" href="#" onClick={() => this.realizarAnalisis.bind(this)("resumenLargo")}>Largo</a>
-                        </div>
-                    </div>
-                    : ''
-                }
+            );
+        }
+        else {
+            return (
+                <div className="col-md-12">
 
-            </div>
-        );
+                </div>
+            )
+        }
     }
 };
 

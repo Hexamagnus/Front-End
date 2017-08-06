@@ -5,16 +5,19 @@ class Notas extends Component {
 
     constructor(props) {
         super(props);
-    } 
+    }
 
     render() {
         return (
             <div className="col-md-12">
+                <div className="col-md-12">
+                    <a className="btn btn-info btn-lg" href="#" onClick={() => this.props.agregarNotaNueva()}>+</a>
+                </div>
                 {this.props.notas.map((nota, index) => {
                     return (
                         <div className="col-md-12">
-                            <a className="btn btn-info btn-lg" href="#" onClick="">
-                                 {nota.titulo} ({nota.fecha_modificacion})
+                            <a className="btn btn-info btn-lg" href="#" onClick={() => this.props.cambiarNotaActual(nota)}>
+                                {nota.titulo} ({nota.fecha_modificacion})
                                 </a>
                         </div>
                     )
