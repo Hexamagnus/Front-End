@@ -1,0 +1,12 @@
+{
+    "uid":"hgfhryrf",
+    "resumen":"resumen1",
+    "titulo":"clase fisica",
+    "profesor":"el profe",
+    "fecha_creacion":"DD-MM-AAAA",
+    "descripcion":"resumen de fisica",
+    "tags": ["termodinamica", "1era ley de newton"],
+    "texto":"ref",
+    "audio":"ref",
+    "fecha_modificacion":"DD-MM-AAA"
+}
