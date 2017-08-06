@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import Perfil from './components/perfil';
-import Notas from './components/notas';
-import DetalleNota from './components/detalleNota';
+import Perfil from './perfil';
+import Notas from './notas';
+import DetalleNota from './detalleNota';
 import './main.css';
 
 class Main extends Component {
@@ -9,6 +9,17 @@ class Main extends Component {
 constructor(props) {
     super(props);
     this.state = {
+      notas: [
+        {
+          "titulo":"Fisica"
+        },
+        {
+          "titulo":"Filosofia"
+        },
+        {
+          "titulo":"Mate"
+        }
+      ],
       notaActual : null
     }
 }
@@ -22,11 +33,11 @@ constructor(props) {
               <Perfil/>
             </div>
             <div className="col-md-12">
-              <Notas/>
+              <Notas notas={this.state.notas}/>
             </div>
           </div>
           <div className="col-md-9">
-            <DetalleNota/>
+            <DetalleNota notaActual={this.state.notaActual}/>
           </div>
         </div>
       </div>
